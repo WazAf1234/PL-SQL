@@ -1,0 +1,53 @@
+create or replace function array389(p in varchar2, t varchar2)
+return character
+as
+e_edgecase exception;
+type cc is varray(26) of varchar2(100);
+c cc;
+l_res character(1);
+l_count pls_integer :=0;
+l_val pls_integer;
+begin
+if(length(p) = length(t) OR ((length(p) = 0) AND (length(t) = 0)))
+then
+raise e_edgecase;
+end if;
+c := cc();
+c.extend(26);
+for i in 1..c.count
+loop
+c(i) := l_count;
+end loop;
+
+for i in 1..length(p)
+loop
+l_count := c(1 + ASCII(substr(p,i,1)) - ASCII('a'));
+c(1 + ASCII(substr(p,i,1))- ASCII('a')) := l_count + 1;
+end loop;
+
+for i in 1..length(t)
+loop
+l_count := c(1 + ASCII(substr(t,i,1)) - ASCII('a'));
+c(1 + ASCII(substr(t,i,1))- ASCII('a')) := l_count - 1;
+end loop;
+
+for j in 1..c.count
+loop
+if(c(j) <> 0)
+then
+l_val := j;
+end if;
+end loop;
+l_res := chr(l_val + 96);
+return l_res;
+exception
+when e_edgecase
+then
+dbms_output.put_line('Edge Case...!');
+return null;
+when others
+then
+dbms_output.put_line(SQLCODE || SQLERRM);
+dbms_output.put_line(dbms_utility.format_error_backtrace());
+return null;
+end;
