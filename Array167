@@ -1,0 +1,36 @@
+create or replace function Array167 (p_var in abcd, target in number)
+RETURN abcd
+as
+e_edgecase EXCEPTION;
+l_high pls_integer;
+l_low pls_integer := 1;
+p_result abcd;
+begin
+if(p_var.count < 2) then
+RAISE e_edgecase;
+end if;
+l_high := p_var.count;
+while (l_low < l_high)
+loop
+if (p_var(l_low) + p_var(l_high) = target)
+then
+dbms_output.put_line('Two indices are : '||l_low || '   ' || l_high);
+p_result.extend(2);
+p_result(1) := l_low;
+p_result(2) := l_high;
+RETURN p_result;
+elsif(p_var(l_low) + p_var(l_high) > target)
+then
+l_high := l_high - 1;
+else
+l_low := l_low + 1;
+end if;
+end loop;
+exception
+when e_edgecase
+then
+dbms_output.put_line('Edge case..!');
+when others then
+dbms_output.put_line(dbms_utility.format_error_backtrace());
+dbms_output.put_line(SQLCODE || '  ' || SQLERRM);
+end;
