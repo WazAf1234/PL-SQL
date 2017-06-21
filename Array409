@@ -1,0 +1,40 @@
+create or replace function Array409(p in varchar2)
+return number
+as
+l_count pls_integer :=0;
+l_res pls_integer :=0;
+type tr is varray(26) of varchar2(100);
+l_temp character(1);
+t tr;
+begin
+t := tr();
+t.extend(26);
+for i in 1..t.count
+loop
+t(i) := l_count; 
+end loop;
+
+for k in 1..length(p)
+loop
+l_temp := substr(p,k,1);
+l_count := t(ASCII(l_temp) - ASCII('a') + 1);
+t(ASCII(l_temp) + 1 - ASCII('a')) := l_count + 1;
+end loop;
+
+--calculating occurrences
+
+for i in 1..t.count
+loop
+l_res := l_res + (floor(t(i)/2)) * 2;
+end loop;
+case l_res
+when length(p) then return l_res;
+else return l_res + 1;
+end case;
+exception
+when others
+then
+dbms_output.put_line(dbms_utility.format_error_backtrace());
+dbms_output.put_line(SQLCODE || SQLERRM);
+return 0;
+end;
