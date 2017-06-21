@@ -1,0 +1,43 @@
+create or replace function Array561 (p_var in out abcd)
+return number
+as
+e_edgecase Exception;
+l_temp pls_integer;
+l_result pls_integer := 0;
+begin
+if(mod(p_var.count,2) = 1) then
+raise e_edgecase;
+end if;
+for i in 1..p_var.count
+loop
+for j in i+1..p_var.count
+loop
+
+if(p_var(i) > p_var(j))
+then
+l_temp := p_var(i);
+p_var(i) := p_var(j);
+p_var(j) := l_temp;
+end if;
+end loop;
+end loop;
+
+for k in 1..p_var.count
+loop
+dbms_output.put_line(p_var(k));
+end loop;
+
+-- calculating the min values
+for k in 1..p_var.count
+loop
+if( mod(k,2) = 1) then
+l_result := l_result + p_var(k);
+end if;
+end loop;
+return l_result;
+exception 
+when e_edgecase
+then
+dbms_output.put_line('Edge case..!');
+return 0;
+end;
