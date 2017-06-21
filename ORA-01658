@@ -1,0 +1,12 @@
+Error Faced:
+
+ORA - 01658 : Unable to create initial extent for segment in tablespace SYSTEM
+
+Select * from dba_data_files;
+
+Allowed the data file to auto extend:
+
+ALTER DATABASE 
+DATAFILE 'C:\ORACLEXE\ORADATA\XE\SYSTEM.DBF'
+AUTOEXTEND ON
+MAXSIZE UNLIMITED;
