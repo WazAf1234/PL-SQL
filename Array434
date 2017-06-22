@@ -1,0 +1,28 @@
+create or replace procedure array434(p in varchar2, o out nocopy number)
+as
+l_val pls_integer :=1;
+l_sub varchar2(1000);
+e_edgecase exception;
+begin
+if(length(p) < 1) then
+raise e_edgecase;
+end if;
+select trim(both ' ' from p)
+into l_sub from dual;
+for i in 1..length(p)
+loop
+if(substr(p,i,1) = ' ')
+then
+l_val := l_val + 1;
+end if;
+end loop;
+dbms_output.put_line(l_val);
+exception
+when e_edgecase
+then
+dbms_output.put_line('Edge case..!');
+when others 
+then
+dbms_output.put_line(sqlcode || sqlerrm);
+dbms_output.put_line(dbms_utility.format_error_backtrace());
+end; 
