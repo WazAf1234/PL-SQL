@@ -1,0 +1,41 @@
+create or replace function pallindrome123
+(a in varchar2)
+return boolean
+as
+l pls_integer := 0;
+e_edgecase exception;
+i pls_integer:=0;
+e_notPallind exception;
+begin
+l := length(a);
+i := 1;
+if (l <= 1)
+then
+raise e_edgecase;
+end if;
+while(i < l)
+loop
+if(substr(a,i,1) = substr(a,l,1))
+then
+i:= i+1;
+l:= l-1;
+else
+--RETURN FALSE;
+raise e_notPallind;
+end if;
+end loop;
+RETURN TRUE;
+exception
+when e_edgecase
+then
+dbms_output.put_line('Its an Edge case!!!!');
+return FALSE;
+when e_notPallind
+then
+dbms_output.put_line('Not a Pallindrome...!');
+RETURN FALSE;
+when others
+then
+dbms_output.put_line(dbms_utility.format_error_backtrace());
+RETURN FALSE;
+end;
