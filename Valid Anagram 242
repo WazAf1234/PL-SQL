@@ -1,0 +1,55 @@
+create or replace function valin242 (a in varchar2, b in varchar2)
+return boolean
+as
+l_counter pls_integer :=0;
+l_c pls_integer :=0;
+type t is varray(26) of varchar2(100);
+y t;
+begin
+y := t();
+for i in 1..26
+loop
+y.extend;
+y(i) := 0;
+end loop;
+
+-- 
+for j in 1..length(a)
+loop
+l_counter := y(ASCII(SUBSTR(a,j,1)) + 1 - ASCII('a'));
+y(ASCII(substr(a,j,1)) + 1 - ASCII('a')) := l_counter + 1;
+end loop;
+
+
+-- 
+for k in 1..length(b)
+loop
+l_c := y(1 + ASCII(substr(b,k,1)) - ASCII('a'));
+y(1 + ASCII(substr(b,k,1)) - ASCII('a')) := l_c -1;
+end loop;
+
+for u in 1..26
+loop
+if(y(u) <>0)
+then
+return FALSE;
+end if;
+end loop;
+return TRUE;
+end;
+
+
+
+
+Caller block
+
+declare
+p boolean;
+pp varchar2(1000);
+begin
+if(valin242('aasdfg','gdaas') = TRUE) then
+dbms_output.put_line('TRUE');
+else
+dbms_output.put_line('FALSE');
+end if;
+end;
