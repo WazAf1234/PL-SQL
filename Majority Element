@@ -1,0 +1,21 @@
+create or replace function maj50 (n in nt)
+return number
+as
+l_counter pls_integer:=1;
+l_val pls_integer;
+begin
+l_val := n(1);
+for i in 2..n.count
+loop
+if(l_val = n(i)) then
+l_count := l_count + 1;
+elsif (l_count = 0)
+then
+l_val := n(i);
+l_count := l_count + 1;
+else
+l_count := l_count - 1;
+end if;
+end loop;
+RETURN l_val;
+end;
