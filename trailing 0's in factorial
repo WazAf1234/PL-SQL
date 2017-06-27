@@ -1,0 +1,13 @@
+create or replace procedure fact172(n in number)
+as
+r pls_integer:=0;
+p pls_integer;
+begin
+p := n;
+while(p > 0)
+loop
+p := p/5;
+r := r + p;
+end loop;
+dbms_output.put_line(r);
+end;
