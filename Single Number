@@ -1,0 +1,26 @@
+Create or Replace Function SNum (A in abcd)
+RETURN NUMBER
+AS
+k NUMBER;
+e_edgeCase EXCEPTION;
+BEGIN
+IF (A.COUNT < 1)
+THEN
+RAISE e_edgeCase;
+END IF;
+k := A(1);
+FOR i in 2..A.COUNT
+LOOP
+k := BITXOR(k,A(i));
+END LOOP;
+RETURN k;
+EXCEPTION
+WHEN e_edgeCase
+THEN
+dbms_output.put_line('EDGE CASE...!');
+RETURN 0;
+WHEN OTHERS
+THEN
+dbms_output.put_line(dbms_utility.format_error_backtrace());
+dbms_output.put_line(SQLCODE||'  '||SQLERRM);
+END;
