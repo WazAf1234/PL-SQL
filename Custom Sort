@@ -1,0 +1,9 @@
+
+
+
+select obj_name, script, created,
+decode(obj_type, 'TABLE', 1, 'P', 2, 'INDEX', 3, 'GRANT', 4, 'R', 5, 'C', 6, 'U', 7, 'TRIGGER', 8, 'COMMENTS', 9, obj_type)
+FROM test_mtab_camo
+ORDER BY 
+DECODE(obj_type, 'TABLE', 1, 'P', 2, 'INDEX' , 3, 'GRANT' , 4, 'R', 5, 'C', 6, 'U' , 7, 'TRIGGER', 8, 'COMMENTS', 9, obj_type) 
+ASC;
