@@ -1,0 +1,68 @@
+Below is the schema 
+
+
+CREATE TABLE Order_Details
+(PRO_ID VARCHAR(2000),
+ORDER_DATE DATE NOT NULL,
+QTY NUMBER NOT NULL DEFAULT 0);
+
+
+-------->
+
+Query to find products and total quantities of the products sold on 2 different days
+
+
+SELECT pro_id, SUM(QTY)
+FROM Order_Details od1
+WHERE EXISTS
+(SELECT 1 FROM Order_details od2
+WHERE od2.pro_id = od1.pro_id
+AND TO_DATE(od2.Order_Date) <> TO_DATE(od1.Order_Date)
+AND od1.pro_id <> od2.pro_id)
+GROUP BY pro_id;
+
+
+
+-------> 
+
+Query to find products ordered on 18th but not on 19th
+
+SELECT pro_id
+FROM Order_Details od1
+WHERE NOT EXISTS
+(SELECT 1 FROM Order_details od2
+WHERE od2.pro_id = od1.pro_id
+AND TO_DATE(od2.order_date) = '19-NOV-17')
+AND TO_DATE(od1.order_date) = '18-NOV-17';
+
+
+
+--------->
+
+
+Product ordered more than once in a day
+
+
+    select to_date(odate),pro_id
+    from orders_test
+    group by to_date(odate),pro_id
+    having count(1) > 1;
+    
+    
+    
+    
+    ----------> Explosion
+    
+    
+    WITH Divs AS
+    (SELECT DISTINCT names, 80 step, TRUNC(units/80) times, dense_rank() over
+    (partition by names order by level) rnks from tryit
+    connect by level < (select max(trunc(units/80)) from tryit)),
+    rems as
+    (select names,trunc(mod, 80) rnks from tryit)
+    select names, rnks from rems where rnks <> 0
+    union all
+    select names, rnks from divs where rnks <= times
+    order by names, rnks desc;
+
+
