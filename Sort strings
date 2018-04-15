@@ -1,0 +1,33 @@
+Given two strings s1, and s2
+Sort string s1 as s2
+
+
+Example : s1 = sadsdersas
+          s2 = asder
+          result : aassssdder
+          
+          
+          # Use Hashmap / Dictionary to solve this
+          
+          Space : O(n)
+          Time  : O(n)
+          
+          def sortS1asS2(s1, s2):
+            if len(s2) == 0 or len(s1):
+                return ""
+            hasher = {}
+            for c in s1:
+              # for storing the frequencies of number of characters in s1
+              if c not in hasher:
+                hasher[c] = 1
+              else:
+                hasher[c] += 1
+             # for printing as per the order of s2
+             result = []
+             for c in s2:
+              if c in hasher:
+                result.append(c * hasher[c])
+                del hasher[c]
+             # joining the result set:
+             return "".join([i for i in result])
+                
