@@ -1,0 +1,21 @@
+Given length and width of rectangle, find the number of minimum squares that can be created 
+
+Iterative approach:
+
+def minSquare(a,b):
+    result = 0
+    reamining = 0
+    if a < b:
+        a,b = b,a
+    while b > 0:
+        result += int(a/b)
+        reamining = int(a%b)
+        a = b
+        b = reamining
+    return result
+    
+    
+    Recursive Approach:
+    
+    def recursiveMinSquare(a,b):
+      
