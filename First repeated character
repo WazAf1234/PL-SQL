@@ -1,0 +1,21 @@
+Given a string , find the first repeated character in the string
+
+Ex : titcode
+return t
+
+Approach: 
+
+Use a HashMap
+
+def firstRepeatedChar(s):
+  dicts = {}
+  for c in s:
+    if c in dicts:
+      return c
+    else:
+      dicts[c] = 1
+
+
+
+time : O(n)
+space : O(n)
